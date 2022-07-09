@@ -1,0 +1,41 @@
+<div class="container-fluid text-center">
+  <button class="btn btn-outline-danger my-2" (click)="toggleScanner()">
+    <span *ngIf="showScanner">Hide QR Scanner</span>
+    <span *ngIf="!showScanner">Scan QR Code</span>
+  </button>
+  <div class="row">
+    <div class="col"><hr /></div>
+    <div class="col-auto">OR</div>
+    <div class="col"><hr /></div>
+  </div>
+  <button class="btn btn-outline-danger my-2" (click)="toggleImageCode()">
+    Enter an Image code
+  </button>
+</div>
+
+<div class="card text-center p-2" *ngIf="!showScanner && !imageResult && !enterImageCode">
+  <div class="card-body">
+    <p class="card-text">
+      Please hold your mobile phone's camera facing towards the QR code
+    </p>
+  </div>
+  <img src="assets/holdingQr.jpg" class="card-img-top img-rounded" />
+</div>
+
+<div class="scanner my-4" *ngIf="showScanner && !imageResult">
+  <zxing-scanner (scanSuccess)="showResult($event)"></zxing-scanner>
+</div>
+
+<div class="container" *ngIf="!showScanner && enterImageCode">
+  <div class="input-group my-3">
+    <input
+      type="text"
+      class="form-control mx-2"
+      placeholder="Enter Image code"
+      [(ngModel)]="imageResult"
+    />
+    <button class="btn btn-danger" (click)="showResult(imageResult)">
+      SUBMIT
+    </button>
+  </div>
+</div>
